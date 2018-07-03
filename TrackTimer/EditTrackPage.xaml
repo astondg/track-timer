@@ -1,0 +1,84 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="TrackTimer.EditTrackPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Controls="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
+    xmlns:wpe="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:wpeprim="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+    
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator IsIndeterminate="true" IsVisible="{Binding SystemTrayIsVisible}" Text="{Binding LoadingStatusText}" />
+    </shell:SystemTray.ProgressIndicator>
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <phone:Pivot Title="{Binding Path=LocalizedResources.Title_Page_EditTrack, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PivotHeaderTemplate}">
+            <!--Pivot Details-->
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.Title_Section_Details, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Path=LocalizedResources.Text_Field_TrackName, Source={StaticResource LocalizedStrings}}" />
+                        <wpe:PhoneTextBox Text="{Binding Track.Name, Mode=TwoWay}" IsEnabled="{Binding Track.IsLocal}" />
+                        <TextBlock Text="{Binding Path=LocalizedResources.Text_Field_TrackBackgroundImage, Source={StaticResource LocalizedStrings}}" />
+                        <Button Content="{Binding Path=LocalizedResources.Text_Button_ChooseBackground, Source={StaticResource LocalizedStrings}}" Click="Button_Click" />
+                        <TextBlock Text="{Binding Path=LocalizedResources.Text_Field_TrackLength, Source={StaticResource LocalizedStrings}}" />
+                        <wpe:PhoneTextBox Text="{Binding Track.Length, Mode=TwoWay}" IsEnabled="{Binding Track.IsLocal}" />
+                        <TextBlock Text="{Binding Path=LocalizedResources.Text_Field_TrackDescription, Source={StaticResource LocalizedStrings}}" />
+                        <wpe:PhoneTextBox Text="{Binding Track.Description, Mode=TwoWay}" IsEnabled="{Binding Track.IsLocal}" TextWrapping="Wrap" />
+                        <Button Content="{Binding Path=LocalizedResources.Text_Button_Save, Source={StaticResource LocalizedStrings}}" Command="{Binding SaveTrack}" CommandParameter="{Binding Track}" />
+                        <Button Content="{Binding Path=LocalizedResources.Text_Button_RevertToDefaults, Source={StaticResource LocalizedStrings}}" Visibility="{Binding Track.IsLocal, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=NEGATE}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PivotItem>
+
+            <!--Pivot Sectors-->
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.Title_Section_Sectors, Source={StaticResource LocalizedStrings}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding Path=LocalizedResources.Text_Blurb_AddSector, Source={StaticResource LocalizedStrings}}" TextWrapping="Wrap" />
+                    <Controls:Map x:Name="mapCircuit" Grid.Row="1" Margin="0,12,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  ZoomLevel="16" Loaded="Map_Loaded" CartographicMode="Hybrid" />
+                    <phone:LongListSelector x:Name="sectorSelector" Grid.Row="2" Margin="0,12,0,0" ItemsSource="{Binding Track.Sectors}">
+                        <phone:LongListSelector.ItemTemplate>
+                            <DataTemplate>
+                                <Border>
+                                    <wpe:ContextMenuService.ContextMenu>
+                                        <wpe:ContextMenu>
+                                            <wpe:MenuItem Header="{Binding Path=LocalizedResources.Text_ContextMenu_DeleteSector, Source={StaticResource LocalizedStrings}}" Click="MenuItem_Click" CommandParameter="{Binding}" />
+                                        </wpe:ContextMenu>
+                                    </wpe:ContextMenuService.ContextMenu>
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding SectorNumber}" />
+                                            <TextBlock Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding Path=LocalizedResources.Text_Blurb_StartFinishLine, Source={StaticResource LocalizedStrings}}" Visibility="{Binding IsFinishLine, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
+                                            <TextBlock Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding StartLatitude}" />
+                                            <TextBlock Margin="12,0,0,0" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding StartLongitude}" />
+                                            <TextBlock Margin="12,0,0,0" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding Heading}" />
+                                            <TextBlock Margin="0" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding Path=LocalizedResources.Text_Unit_Degrees, Source={StaticResource LocalizedStrings}}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </phone:LongListSelector.ItemTemplate>
+                    </phone:LongListSelector>
+                </Grid>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+    
+</phone:PhoneApplicationPage>

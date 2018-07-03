@@ -1,0 +1,194 @@
+﻿<phone:PhoneApplicationPage
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wpe="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:Controls="clr-namespace:Microsoft.Live.Controls;assembly=Microsoft.Live.Controls"
+    xmlns:local="clr-namespace:TrackTimer.Controls"
+    xmlns:converters="clr-namespace:TrackTimer.Converters"
+    x:Class="TrackTimer.SettingsView"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Landscape"
+    shell:SystemTray.IsVisible="True"
+    x:Name="settingsPage">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Margin="0,-12,0,0" Background="Transparent">
+        <phone:Pivot Title="{Binding Path=LocalizedResources.Title_Page_Settings, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PivotHeaderTemplate}">
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.Title_Section_General, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.Text_Blurb_PublicProfile, Source={StaticResource LocalizedStrings}}" />
+                        <wpe:ToggleSwitch IsChecked="{Binding UserProfileIsPublic, Mode=TwoWay}" IsEnabled="{Binding IsAuthenticated}"/>
+                        <TextBlock Text="{Binding Path=LocalizedResources.Text_Field_LocationConsent, Source={StaticResource LocalizedStrings}}" />
+                        <wpe:ToggleSwitch IsChecked="{Binding LocationConsent, Mode=TwoWay}"/>
+                        <TextBlock Text="{Binding Path=LocalizedResources.Text_Field_ShowUnofficialTracks, Source={StaticResource LocalizedStrings}}" />
+                        <wpe:ToggleSwitch IsChecked="{Binding ShowUnofficialTracks, Mode=TwoWay}" IsEnabled="{Binding IsTrial, Converter={StaticResource BoolInverterConverter}}"/>
+                        <TextBlock Text="{Binding Path=LocalizedResources.Text_Field_UnitType, Source={StaticResource LocalizedStrings}}" />
+                        <RadioButton Content="{Binding Path=LocalizedResources.Text_Field_UnitType_Metric, Source={StaticResource LocalizedStrings}}" GroupName="SpeedUnits" IsChecked="{Binding IsMetricUnits, Mode=TwoWay}"></RadioButton>
+                        <RadioButton Content="{Binding Path=LocalizedResources.Text_Field_UnitType_Imperial, Source={StaticResource LocalizedStrings}}" GroupName="SpeedUnits" IsChecked="{Binding IsMetricUnits, Converter={StaticResource BoolInverterConverter}}"></RadioButton>
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PivotItem>
+
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.Title_Section_Account, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Name="txtAccountName"></TextBlock>
+                        <Button Name="btnSignin" Content="{Binding Path=LocalizedResources.Text_Button_SignIn, Source={StaticResource LocalizedStrings}}" Click="btnSignin_Click" />
+                        <TextBlock Text="{Binding Path=LocalizedResources.Text_Field_SkyDriveIntegration, Source={StaticResource LocalizedStrings}}" />
+                        <wpe:ToggleSwitch IsChecked="{Binding IsConnectedToSkyDrive, Mode=TwoWay}" IsEnabled="{Binding IsAuthenticated}" />
+                        <StackPanel Visibility="{Binding IsConnectedToSkyDrive, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Path=LocalizedResources.Text_Field_AutouploadSessions, Source={StaticResource LocalizedStrings}}" />
+                            <wpe:ToggleSwitch IsChecked="{Binding AutouploadSessions, Mode=TwoWay}" IsEnabled="{Binding IsAuthenticated}"/>
+                            <!--<TextBlock Text="{Binding Path=LocalizedResources.Text_Field_UploadSessionsOverWiFiOnly, Source={StaticResource LocalizedStrings}}" />
+                            <wpe:ToggleSwitch IsChecked="{Binding UploadSessionsOverWifi, Mode=TwoWay}" IsEnabled="{Binding IsAuthenticated}"/>-->
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PivotItem>
+
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.Title_Section_Vehicles, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <wpe:WrapPanel x:Name="wplAddNewVehicle" Tap="WrapPanel_Tap" Visibility="{Binding IsAuthenticatedAndFullLicence, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Rectangle Margin="24,0,0,0" Fill="{StaticResource PhoneForegroundBrush}" Width="48" Height="48" >
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/Toolkit.Content/ApplicationBar.Add.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Margin="0,0,0,0" Style="{StaticResource PhoneTextLargeStyle}" Text="{Binding Path=LocalizedResources.Text_Button_AddNewVehicle, Source={StaticResource LocalizedStrings}}" />
+                        </wpe:WrapPanel>
+                        <phone:LongListSelector Margin="24,12,0,0" ItemsSource="{Binding Vehicles}" SelectionChanged="LongListSelector_SelectionChanged_1">
+                            <phone:LongListSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <Border>
+                                        <wpe:ContextMenuService.ContextMenu>
+                                            <wpe:ContextMenu>
+                                                <wpe:MenuItem Header="{Binding Path=LocalizedResources.Text_ContextMenu_DeleteVehicle, Source={StaticResource LocalizedStrings}}" Command="{Binding DataContext.DeleteVehicle, ElementName=settingsPage}" CommandParameter="{Binding}" />
+                                            </wpe:ContextMenu>
+                                        </wpe:ContextMenuService.ContextMenu>
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding Model}" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Margin="36,0,0,0" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding Make}" />
+                                                <TextBlock Style="{StaticResource PhoneTextSubtleStyle}" Text="-" />
+                                                <TextBlock Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding Class}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </phone:LongListSelector.ItemTemplate>
+                        </phone:LongListSelector>
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PivotItem>
+            
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.Title_Section_Gps, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <StackPanel Visibility="{Binding IsTrial, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=NEGATE}">
+                            <StackPanel Visibility="{Binding BluetoothIsEnabled, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=NEGATE}">
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,24" Text="{Binding Path=LocalizedResources.Text_Blurb_BluetoothDisabled, Source={StaticResource LocalizedStrings}}" />
+                                <Button Content="{Binding Path=LocalizedResources.Text_Button_BluetoothSettings, Source={StaticResource LocalizedStrings}}" Click="Button_Click" />
+                            </StackPanel>
+                            <StackPanel Visibility="{Binding BluetoothIsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,36" Text="{Binding Path=LocalizedResources.Text_Blurb_BluetoothDeviceSelection, Source={StaticResource LocalizedStrings}}" />
+                                <wpe:LongListMultiSelector x:Name="llms" EnforceIsSelectionEnabled="True" ItemsSource="{Binding BluetoothDevices}" Loaded="LongListMultiSelector_Loaded" Unloaded="LongListMultiSelector_Unloaded">
+                                    <wpe:LongListMultiSelector.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding DisplayName}" />
+                                        </DataTemplate>
+                                    </wpe:LongListMultiSelector.ItemTemplate>
+                                </wpe:LongListMultiSelector>
+                            </StackPanel>
+                        </StackPanel>
+                        <local:TrialFeatureUnavailable Visibility="{Binding IsTrial, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PivotItem>
+            
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.Title_Section_Camera, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <StackPanel Visibility="{Binding IsTrial, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=NEGATE}">
+                            <StackPanel>
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,36" Text="{Binding Path=LocalizedResources.Text_Blurb_CameraSetup, Source={StaticResource LocalizedStrings}}" />
+                                <Button Content="{Binding Path=LocalizedResources.Text_Button_WiFiSettings, Source={StaticResource LocalizedStrings}}" Click="Button_Click_1" />
+                            </StackPanel>
+                            <StackPanel Margin="0,36,0,0">
+                                <TextBlock Text="{Binding Path=LocalizedResources.Text_Field_StartCameraWithTiming, Source={StaticResource LocalizedStrings}}" />
+                                <wpe:ToggleSwitch IsChecked="{Binding StartCameraWithTiming, Mode=TwoWay}" />
+                                <TextBlock Visibility="{Binding StartCameraWithTiming, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Text="{Binding Path=LocalizedResources.Text_Field_CameraPassword, Source={StaticResource LocalizedStrings}}" />
+                                <PasswordBox Visibility="{Binding StartCameraWithTiming, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Password="{Binding CameraPassword, Mode=TwoWay}" />
+                                <Button Visibility="{Binding StartCameraWithTiming, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Content="{Binding Path=LocalizedResources.Text_Button_TestCamera, Source={StaticResource LocalizedStrings}}" Command="{Binding TestCamera}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <local:TrialFeatureUnavailable Visibility="{Binding IsTrial, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PivotItem>
+
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.Title_Section_Support, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="48" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="48" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="48" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="0" Background="DimGray" Visibility="{Binding IsRegisteredForUpgrade, Converter={StaticResource BoolToVisibilityConverter}}" Padding="8,8,8,8">
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.Text_Blurb_UpgradeRegistered, Source={StaticResource LocalizedStrings}}" />
+                        </Border>
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.Text_Blurb_UpgradeRegistration, Source={StaticResource LocalizedStrings}}" Visibility="{Binding IsRegisteredForUpgrade, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=NEGATE}" />
+                        <Button x:Name="RegisterForUpgrade" Grid.Row="1" Grid.ColumnSpan="2" Content="{Binding Path=LocalizedResources.Text_Button_RegisterForUpgrade, Source={StaticResource LocalizedStrings}}" Visibility="{Binding IsRegisteredForUpgrade, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=NEGATE}" Click="Button_Click_6" />
+
+                        <TextBlock Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding Path=LocalizedResources.Title_Application, Source={StaticResource LocalizedStrings}}" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,12,0" Text="{Binding Path=LocalizedResources.Text_Field_Version, Source={StaticResource LocalizedStrings}}" />
+                        <TextBlock Grid.Row="4" Grid.Column="1" x:Name="tbkAppVersion" />
+
+                        <HyperlinkButton Grid.Row="6" Grid.ColumnSpan="2" HorizontalContentAlignment="Left" Content="{Binding Path=LocalizedResources.Text_Button_TermsOfUse, Source={StaticResource LocalizedStrings}}" NavigateUri="http://tracktimer.azurewebsites.net/home/termsofuse" TargetName="_blank" />
+                        <HyperlinkButton Grid.Row="7" Grid.ColumnSpan="2" HorizontalContentAlignment="Left" Content="{Binding Path=LocalizedResources.Text_Button_PrivacyPolicy, Source={StaticResource LocalizedStrings}}" NavigateUri="http://tracktimer.azurewebsites.net/home/privacypolicy" TargetName="_blank" />
+                        <HyperlinkButton Grid.Row="8" Grid.ColumnSpan="2" HorizontalContentAlignment="Left" Content="{Binding Path=LocalizedResources.Text_Button_ReviewApp, Source={StaticResource LocalizedStrings}}" NavigateUri="zune:reviewapp" />
+                        <HyperlinkButton Grid.Row="9" Grid.ColumnSpan="2" HorizontalContentAlignment="Left" Content="{Binding Path=LocalizedResources.Text_Button_ContactSupport, Source={StaticResource LocalizedStrings}}" NavigateUri="http://tracktimer.azurewebsites.net/home/support" TargetName="_blank" />
+                        
+                        <Button Grid.Row="11" Grid.ColumnSpan="2" x:Name="btnToggleTrial" Visibility="Collapsed" Content="toggle trial mode" Click="Button_Click_5"></Button>
+                        <Button Grid.Row="12" Grid.ColumnSpan="2" Content="{Binding Path=LocalizedResources.Text_Button_Purchase, Source={StaticResource LocalizedStrings}}" Visibility="{Binding IsTrial, Converter={StaticResource BoolToVisibilityConverter}}" Click="Button_Click_4"></Button>
+                        <Button Grid.Row="13" Grid.ColumnSpan="2" Content="{Binding Path=LocalizedResources.Text_Button_ResetTrackCache, Source={StaticResource LocalizedStrings}}" Click="Button_Click_2" />
+                        <Button Grid.Row="14" Grid.ColumnSpan="2" Content="{Binding Path=LocalizedResources.Text_Button_ResetSessions, Source={StaticResource LocalizedStrings}}" Click="Button_Click_3" />
+                    </Grid>
+                </ScrollViewer>
+            </phone:PivotItem>
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.Title_Section_Credits, Source={StaticResource LocalizedStrings}}">
+                <StackPanel>
+                    <TextBlock Margin="0,0,0,6" Text="{Binding Path=LocalizedResources.Text_Blurb_WeatherDataCredit, Source={StaticResource LocalizedStrings}}" />
+                    <Image x:Name="logoWeatherUnderground" Margin="6" Source="/Assets/wundergroundLogo_4c_horz.png" />
+                </StackPanel>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+
+</phone:PhoneApplicationPage>

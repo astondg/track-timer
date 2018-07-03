@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="TrackTimer.Controls.TrialFeatureUnavailable"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+    
+    <StackPanel>
+        <TextBlock Margin="0,0,0,36" Text="{Binding Path=LocalizedResources.Text_Blurb_FeatureUnavailableInTrial, Source={StaticResource LocalizedStrings}}" TextWrapping="Wrap" />
+        <Button Content="{Binding Path=LocalizedResources.Text_Button_Purchase, Source={StaticResource LocalizedStrings}}" Click="Button_Click"></Button>
+    </StackPanel>
+</UserControl>

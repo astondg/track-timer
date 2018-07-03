@@ -1,0 +1,74 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="TrackTimer.ManageFriendsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wpe="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape"  Orientation="Landscape"
+    shell:SystemTray.IsVisible="False"
+    x:Name="manageFriendsPage">
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar Opacity="0.75" Mode="Minimized" />
+    </phone:PhoneApplicationPage.ApplicationBar>
+    
+    <phone:PhoneApplicationPage.Resources>
+        <DataTemplate x:Key="FriendListItemTemplateWithContextMenu">
+            <StackPanel HorizontalAlignment="Stretch" Margin="0,6,0,6">
+                <wpe:ContextMenuService.ContextMenu>
+                    <wpe:ContextMenu>
+                        <wpe:MenuItem Header="{Binding LocalizedResources.Text_ContextMenu_DeleteFriend, Source={StaticResource LocalizedStrings}}" Command="{Binding DataContext.DeleteFriend, ElementName=manageFriendsPage}" CommandParameter="{Binding}" Visibility="{Binding IsConfirmed, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <wpe:MenuItem Header="{Binding LocalizedResources.Text_ContextMenu_AcceptFriend, Source={StaticResource LocalizedStrings}}" Command="{Binding DataContext.AcceptFriend, ElementName=manageFriendsPage}" CommandParameter="{Binding}" Visibility="{Binding CanConfirmFriendship, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <wpe:MenuItem Header="{Binding LocalizedResources.Text_ContextMenu_RejectFriend, Source={StaticResource LocalizedStrings}}" Command="{Binding DataContext.DeleteFriend, ElementName=manageFriendsPage}" CommandParameter="{Binding}" Visibility="{Binding IsConfirmed, ConverterParameter=NEGATE, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </wpe:ContextMenu>
+                </wpe:ContextMenuService.ContextMenu>
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                    <TextBlock x:Name="FirstName" Margin="0,0,0,0" Style="{Binding IsConfirmed, Converter={StaticResource BoolToStyleConverter}, ConverterParameter={StaticResource confirmedFriendStyles}}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding FirstName}" />
+                    <TextBlock x:Name="NameSeperator" Style="{Binding IsConfirmed, Converter={StaticResource BoolToStyleConverter}, ConverterParameter={StaticResource confirmedFriendStyles}}" FontSize="{StaticResource PhoneFontSizeLarge}" Text=" " />
+                    <TextBlock x:Name="LastName" Style="{Binding IsConfirmed, Converter={StaticResource BoolToStyleConverter}, ConverterParameter={StaticResource confirmedFriendStyles}}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding LastName}" />
+                </StackPanel>
+                <TextBlock Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LastActivityTime, Converter={StaticResource DateTimeOffsetToStringConverter}, ConverterParameter=inactive}" Visibility="{Binding IsConfirmed, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <TextBlock Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.Text_Default_Pending, Source={StaticResource LocalizedStrings}}" Visibility="{Binding IsConfirmed, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=NEGATE}" />
+            </StackPanel>
+        </DataTemplate>
+	</phone:PhoneApplicationPage.Resources>
+    
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <!--Pivot Control-->
+        <phone:Pivot x:Name="friendsPivot" Title="{Binding Path=LocalizedResources.Title_Page_ManageFriends, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PivotHeaderTemplate}" SelectionChanged="friendsPivot_SelectionChanged">
+            <!--Pivot item one-->
+            <phone:PivotItem x:Name="friendsPivotItem" Header="{Binding Path=LocalizedResources.Title_Section_Friends, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <wpe:WrapPanel x:Name="wplAddFriend" Tap="wplAddFriend_Tap">
+                            <Rectangle Margin="24,0,0,0" Fill="{StaticResource PhoneForegroundBrush}" Width="48" Height="48" >
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/Toolkit.Content/ApplicationBar.Add.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Margin="0,0,0,0" Style="{StaticResource PhoneTextLargeStyle}" Text="{Binding Path=LocalizedResources.Text_Button_AddFriend, Source={StaticResource LocalizedStrings}}" />
+                        </wpe:WrapPanel>
+                        <wpe:LongListMultiSelector x:Name="friendsList" Margin="12,12,0,0" ItemsSource="{Binding ConfirmedFriends}" ItemTemplate="{StaticResource FriendListItemTemplateWithContextMenu}" LayoutMode="List" IsSelectionEnabledChanged="friendsList_IsSelectionEnabledChanged" SelectionChanged="friendsList_SelectionChanged" />
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PivotItem>
+
+            <!--Pivot item two-->
+            <phone:PivotItem x:Name="requestsPivotItem" Header="{Binding Path=LocalizedResources.Title_Section_FriendRequests, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <wpe:LongListMultiSelector x:Name="friendRequestsList" Margin="12,12,0,0" ItemsSource="{Binding FriendRequests}" ItemTemplate="{StaticResource FriendListItemTemplateWithContextMenu}" LayoutMode="List" IsSelectionEnabledChanged="friendRequestsList_IsSelectionEnabledChanged" SelectionChanged="friendRequestsList_SelectionChanged" />
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+    
+</phone:PhoneApplicationPage>

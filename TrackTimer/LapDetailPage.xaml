@@ -1,0 +1,120 @@
+﻿<phone:PhoneApplicationPage xmlns:UI="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI" 
+    x:Class="TrackTimer.LapDetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:Controls="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
+    xmlns:wpe="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:adRotator="clr-namespace:AdRotator;assembly=AdRotator"
+    xmlns:converters="clr-namespace:TrackTimer.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot contains the root grid where all other page content is placed-->
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <phone:Pivot Grid.Row="0" Title="{Binding Path=LocalizedResources.Title_Page_LapDetail, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource PivotHeaderTemplate}">
+			<phone:PivotItem Header="{Binding Path=LocalizedResources.Title_Section_LapDetails, Source={StaticResource LocalizedStrings}}">
+				<ScrollViewer Margin="12,0,12,0">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<TextBlock Grid.ColumnSpan="2" Grid.Row="0" Margin="0,0,0,18" FontSize="{StaticResource PhoneFontSizeMediumLarge}" Text="{Binding Lap.Timestamp, Converter={StaticResource DateTimeOffsetToStringConverter}}" TextAlignment="Left" />
+						<Image Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="0,0,0,6" Source="{Binding Weather.Condition, Converter={StaticResource WeatherConditionToIconPathConverter}}" Visibility="{Binding ShowWeather, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Visibility="{Binding ShowWeather, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Margin="0" Style="{StaticResource PhoneTextLargeStyle}" Text="{Binding Weather.Temperature}" />
+                            <TextBlock x:Name="unitTemperature" Margin="6,0,0,0" Style="{StaticResource PhoneTextLargeStyle}" Text="{Binding Path=LocalizedResources.Text_Unit_DegreesCentigrade, Source={StaticResource LocalizedStrings}}" />
+                        </StackPanel>
+						<TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Bottom" Text="{Binding Path=LocalizedResources.Text_Field_MaximumSpeed, Source={StaticResource LocalizedStrings}}" />
+						<StackPanel Grid.Column="1" Grid.Row="2" Margin="0,0,0,6" HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="{StaticResource PhoneFontSizeMediumLarge}" Text="{Binding Lap.MaximumSpeed, Converter={StaticResource DoubleToWholeNumberConverter}}" />
+							<TextBlock Margin="6,0,0,0" FontSize="{StaticResource PhoneFontSizeMediumLarge}" Text="{Binding SpeedUnitText}" />
+						</StackPanel>
+						<TextBlock Grid.Column="0" Grid.Row="3" VerticalAlignment="Bottom" Text="{Binding Path=LocalizedResources.Text_Field_Length, Source={StaticResource LocalizedStrings}}" />
+						<StackPanel Grid.Column="1" Grid.Row="3" Margin="0,0,0,6" HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="{StaticResource PhoneFontSizeMediumLarge}" Text="{Binding ProjectedLength, Converter={StaticResource ValueDefaultToNotApplicableConverter}}" />
+							<TextBlock FontSize="{StaticResource PhoneFontSizeMediumLarge}" Margin="6,0,0,0" Text="{Binding LengthUnitText}" />
+						</StackPanel>
+						<TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Bottom" Text="{Binding Path=LocalizedResources.Text_Field_IsOfficialLap, Source={StaticResource LocalizedStrings}}" Visibility="{Binding IsOfficial, Converter={StaticResource ObjectToVisibilityConverter}}" />
+						<StackPanel Grid.Column="1" Grid.Row="4" Margin="0,0,0,6" HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="{StaticResource PhoneFontSizeMediumLarge}" Text="{Binding IsOfficial}" Visibility="{Binding IsOfficial, Converter={StaticResource ObjectToVisibilityConverter}}" />
+							<TextBlock Margin="0,0,0,0" Style="{StaticResource PhoneTextSubtleStyle}" Text="*" />
+						</StackPanel>
+						<TextBlock Grid.Column="0" Grid.Row="5" VerticalAlignment="Bottom" Text="{Binding Path=LocalizedResources.Text_Field_GpsDeviceName, Source={StaticResource LocalizedStrings}}" Visibility="{Binding GpsDeviceName, Converter={StaticResource ObjectToVisibilityConverter}}" />
+						<TextBlock Grid.Column="1" Grid.Row="5" Margin="0,0,0,6" FontSize="{StaticResource PhoneFontSizeMediumLarge}" Text="{Binding GpsDeviceName}" TextAlignment="Right" Visibility="{Binding GpsDeviceName, Converter={StaticResource ObjectToVisibilityConverter}}" />
+						<TextBlock Grid.ColumnSpan="2" Grid.Row="7" Margin="0,0,0,12" Text="{Binding LapMinimumLengthBlurb}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" />
+					</Grid>
+				</ScrollViewer>
+			</phone:PivotItem>
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.Title_Section_Map, Source={StaticResource LocalizedStrings}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Controls:Map Grid.Row="0" x:Name="mapCircuit" ZoomLevel="16" Loaded="Map_Loaded" CartographicMode="Road" />
+                    <wpe:ToggleSwitch Grid.Row="1" Content="{Binding Path=LocalizedResources.Text_Field_ShowApexes, Source={StaticResource LocalizedStrings}}" IsChecked="False" Unchecked="ToggleSwitch_Unchecked" Checked="ToggleSwitch_Checked" />
+                </Grid>
+            </phone:PivotItem>
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.Title_Section_SectorSplits, Source={StaticResource LocalizedStrings}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="54" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding Path=LocalizedResources.Text_TableHeading_LapNumber, Source={StaticResource LocalizedStrings}}" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding Path=LocalizedResources.Text_TableHeading_SplitTime, Source={StaticResource LocalizedStrings}}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding Path=LocalizedResources.Text_TableHeading_BestLapDifferenceTime, Source={StaticResource LocalizedStrings}}" />
+                    <phone:LongListSelector Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding SectorSplits}">
+                        <phone:LongListSelector.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,-6,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="54" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding Item1}" />
+                                    <TextBlock Grid.Column="1" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding Item2, Converter={StaticResource TimeSpanToStringConverter}}" />
+                                    <TextBlock Grid.Column="2" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding Item3, Converter={StaticResource TimeSpanToAheadBehindConverter}}" Foreground="{Binding Item3, Converter={StaticResource TimeSpanToColourConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </phone:LongListSelector.ItemTemplate>
+                    </phone:LongListSelector>
+                </Grid>
+            </phone:PivotItem>
+        </phone:Pivot>
+        <Image x:Name="adDefaultControl" Grid.Row="1" Height="80" Width="480" Source="/Assets/TrackTimer_BuyBanner_480x80.png" Tap="Image_Tap" />
+        <adRotator:AdRotatorControl x:Name="adRotatorControl" Grid.Row="1" AdHeight="80" AdWidth="480" LocalSettingsLocation="defaultAdSettings.xml" RemoteSettingsLocation="http://tracktimer.azurewebsites.net/Content/config/defaultAdSettings.xml" AutoStartAds="True" />
+    </Grid>
+
+</phone:PhoneApplicationPage>

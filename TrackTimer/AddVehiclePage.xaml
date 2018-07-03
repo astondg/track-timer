@@ -1,0 +1,70 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="TrackTimer.AddVehiclePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wpe="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Landscape"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+		<VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisibilityStates">
+                <VisualState x:Name="Open">
+                    <Storyboard>
+                        <DoubleAnimation
+                            Storyboard.TargetName="PlaneProjection"
+                            Storyboard.TargetProperty="RotationX"
+                            From="-50"
+                            To="0"
+                            Duration="0:0:0.2"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Closed">
+                    <Storyboard>
+                        <DoubleAnimation
+                            Storyboard.TargetName="PlaneProjection"
+                            Storyboard.TargetProperty="RotationX"
+                            To="90"
+                            Duration="0:0:0.2"
+                            EasingFunction="{StaticResource Ease}"/>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+		<Grid.Projection>
+			<PlaneProjection x:Name="PlaneProjection"/>
+		</Grid.Projection>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="{Binding Path=LocalizedResources.Title_Application, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.Title_Page_AddVehicle, Source={StaticResource LocalizedStrings}}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <StackPanel>
+                <TextBlock Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding Path=LocalizedResources.Text_FieldHeading_VehicleMake, Source={StaticResource LocalizedStrings}}"/>
+                <wpe:PhoneTextBox Text="{Binding NewVehicle.Make, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, NotifyOnValidationError=True}"></wpe:PhoneTextBox>
+                <TextBlock x:Name="tbkErrorMake" Text="error" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FFB22828" Visibility="Collapsed" />
+                <TextBlock Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding Path=LocalizedResources.Text_FieldHeading_VehicleModel, Source={StaticResource LocalizedStrings}}"/>
+                <wpe:PhoneTextBox Text="{Binding NewVehicle.Model, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, NotifyOnValidationError=True}"></wpe:PhoneTextBox>
+                <TextBlock x:Name="tbkErrorModel" Text="error" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FFB22828" Visibility="Collapsed" />
+                <TextBlock Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding Path=LocalizedResources.Text_FieldHeading_VehicleClass, Source={StaticResource LocalizedStrings}}"/>
+                <wpe:ListPicker ItemsSource="{Binding VehicleClasses}" DisplayMemberPath="Value" SelectedItem="{Binding NewVehicle.SelectedClass, Mode=TwoWay}"></wpe:ListPicker>
+                <Button x:Name="btnAddEdit" Content="{Binding Path=LocalizedResources.Text_Button_AddVehicle, Source={StaticResource LocalizedStrings}}" Command="{Binding AddVehicle}" CommandParameter="{Binding NewVehicle}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>

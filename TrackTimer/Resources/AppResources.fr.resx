@@ -1,0 +1,620 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ResourceFlowDirection" xml:space="preserve">
+    <value>LeftToRight</value>
+    <comment>Controls the FlowDirection for all elements in the RootFrame. Set to the traditional direction of this resource file's language</comment>
+  </data>
+  <data name="ResourceLanguage" xml:space="preserve">
+    <value>fr</value>
+    <comment>Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</comment>
+  </data>
+  <data name="Title_Application" xml:space="preserve">
+    <value>Track Timer</value>
+  </data>
+  <data name="Title_Section_SessionHistory" xml:space="preserve">
+    <value>l'historique de la session</value>
+  </data>
+  <data name="Text_TrackSettings" xml:space="preserve">
+    <value>options de la piste</value>
+  </data>
+  <data name="Text_Unit_ImperialSpeed" xml:space="preserve">
+    <value>MPH</value>
+  </data>
+  <data name="Text_Unit_MetricSpeed" xml:space="preserve">
+    <value>Km/h</value>
+  </data>
+  <data name="Text_Unit_Laps" xml:space="preserve">
+    <value>tours</value>
+  </data>
+  <data name="Text_Button_StartTiming" xml:space="preserve">
+    <value>commencer</value>
+  </data>
+  <data name="Text_Button_Track" xml:space="preserve">
+    <value>piste</value>
+  </data>
+  <data name="Text_Buton_Vehicle" xml:space="preserve">
+    <value>véhicule</value>
+  </data>
+  <data name="Title_Section_TrackDescription" xml:space="preserve">
+    <value>description</value>
+  </data>
+  <data name="Title_SubHeading_TrackLength" xml:space="preserve">
+    <value>longueur</value>
+  </data>
+  <data name="Text_FieldHeading_VehicleClass" xml:space="preserve">
+    <value>classe</value>
+  </data>
+  <data name="Text_FieldHeading_VehicleMake" xml:space="preserve">
+    <value>marque</value>
+  </data>
+  <data name="Text_FieldHeading_VehicleModel" xml:space="preserve">
+    <value>modèle</value>
+  </data>
+  <data name="Title_Page_AddVehicle" xml:space="preserve">
+    <value>vehicule</value>
+  </data>
+  <data name="Title_Page_Settings" xml:space="preserve">
+    <value>options</value>
+  </data>
+  <data name="Text_Blurb_SharedLapTimes" xml:space="preserve">
+    <value>partagez vos meilleurs temps de chaque circuit disponibles avec les autres</value>
+  </data>
+  <data name="Text_Button_AddNewVehicle" xml:space="preserve">
+    <value>ajouter un véhicule</value>
+  </data>
+  <data name="Text_Field_ShareBestLapTime" xml:space="preserve">
+    <value>partager meilleurs temps</value>
+  </data>
+  <data name="Text_Field_UnitType" xml:space="preserve">
+    <value>unités</value>
+  </data>
+  <data name="Title_Section_Account" xml:space="preserve">
+    <value>compte</value>
+  </data>
+  <data name="Title_Section_General" xml:space="preserve">
+    <value>générale</value>
+  </data>
+  <data name="Title_Section_Vehicles" xml:space="preserve">
+    <value>vehicules</value>
+  </data>
+  <data name="Text_Blurb_LocationPrompt" xml:space="preserve">
+    <value>Cette application accède à l'emplacement de votre téléphone portable. Etes-vous d'accord ?</value>
+  </data>
+  <data name="Title_Prompt_Location" xml:space="preserve">
+    <value>emplacement</value>
+  </data>
+  <data name="Title_Section_Leaderboard" xml:space="preserve">
+    <value>classement</value>
+  </data>
+  <data name="Title_Section_Gps" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="Text_Blurb_BluetoothDisabled" xml:space="preserve">
+    <value>L'utilisation d'un récepteur GPS externe nécessite l'activation de Bluetooth et le récepteur GPS pour être couplé. Vous pouvez activer Bluetooth et coupler le récepteur GPS dans les paramètres Bluetooth de votre téléphone portable.</value>
+  </data>
+  <data name="Text_Button_BluetoothSettings" xml:space="preserve">
+    <value>options de Bluetooth</value>
+  </data>
+  <data name="Text_Blurb_BluetoothDeviceSelection" xml:space="preserve">
+    <value>Sélectionnez un ou plusieurs appareils GPS Bluetooth de la liste des appareils, le premier périphérique disponsible sera utilisé pour suivre la progression de votre tour. Si aucun n'est sélectionné, le GPS interne sera utilisé.</value>
+  </data>
+  <data name="Text_Default_UnknownVehicle" xml:space="preserve">
+    <value>véhicule inconnu</value>
+  </data>
+  <data name="Text_Blurb_UnknownTrackDescription" xml:space="preserve">
+    <value>Nous ne pouvons pas trouver une piste à proximité de votre emplacement actuel. Vous pouvez modifier les informations de la piste au fond de cette page, lorsque vous</value>
+  </data>
+  <data name="Text_Default_NotApplicable" xml:space="preserve">
+    <value>N / A</value>
+  </data>
+  <data name="Text_ApplicationBar_EditTrack" xml:space="preserve">
+    <value>modifier la piste</value>
+  </data>
+  <data name="Text_ApplicationBar_Settings" xml:space="preserve">
+    <value>options</value>
+  </data>
+  <data name="Text_ApplicationBar_ShareTrack" xml:space="preserve">
+    <value>partager la piste</value>
+  </data>
+  <data name="Text_Button_ChooseBackground" xml:space="preserve">
+    <value>choisir fond d'écran</value>
+  </data>
+  <data name="Text_Button_RevertToDefaults" xml:space="preserve">
+    <value>revenir aux valeurs de défaut</value>
+  </data>
+  <data name="Text_Field_AutouploadSessions" xml:space="preserve">
+    <value>sessions en transfert automique</value>
+  </data>
+  <data name="Text_Field_SkyDriveIntegration" xml:space="preserve">
+    <value>intégration OneDrive</value>
+  </data>
+  <data name="Text_Field_TrackBackgroundImage" xml:space="preserve">
+    <value>image du fond d'écran</value>
+  </data>
+  <data name="Text_Field_TrackDescription" xml:space="preserve">
+    <value>description</value>
+  </data>
+  <data name="Text_Field_TrackLength" xml:space="preserve">
+    <value>longueur</value>
+  </data>
+  <data name="Text_Field_TrackName" xml:space="preserve">
+    <value>nom</value>
+  </data>
+  <data name="Text_Toggle_Off" xml:space="preserve">
+    <value>éteint</value>
+  </data>
+  <data name="Text_Toggle_On" xml:space="preserve">
+    <value>allumer</value>
+  </data>
+  <data name="Title_Page_EditTrack" xml:space="preserve">
+    <value>modifier la piste</value>
+  </data>
+  <data name="Title_Section_Details" xml:space="preserve">
+    <value>détails</value>
+  </data>
+  <data name="Title_Section_Sectors" xml:space="preserve">
+    <value>secteurs</value>
+  </data>
+  <data name="Text_Default_Loading" xml:space="preserve">
+    <value>en chargement</value>
+  </data>
+  <data name="Text_LoadingStatus_Authenticating" xml:space="preserve">
+    <value>authentification</value>
+  </data>
+  <data name="Text_LoadingStatus_FindingClosestCircuit" xml:space="preserve">
+    <value>trouver circuit le plus proche</value>
+  </data>
+  <data name="Text_LoadingStatus_LoadingCircuit" xml:space="preserve">
+    <value>chargement de la piste</value>
+  </data>
+  <data name="Text_LoadingStatus_LoadingLapHistory" xml:space="preserve">
+    <value>chargement de l'historique des tours</value>
+  </data>
+  <data name="Text_LoadingStatus_LoadingTrackLeaderboard" xml:space="preserve">
+    <value>chargements des classements de la piste</value>
+  </data>
+  <data name="Text_LoadingStatus_RegisteringBestLapTime" xml:space="preserve">
+    <value>enregistrement du meilleur temps au tour</value>
+  </data>
+  <data name="Text_LoadingStatus_SavingSessionToSkyDrive" xml:space="preserve">
+    <value>téléchargement de la session sur OneDrive</value>
+  </data>
+  <data name="Text_LoadingStatus_UpdatingTrackCache" xml:space="preserve">
+    <value>mise à jour de la mémoire cache de la piste</value>
+  </data>
+  <data name="Text_LoadingStatus_ServerUnavailable" xml:space="preserve">
+    <value>serveur indisponible</value>
+  </data>
+  <data name="Text_ContextMenu_DeleteSector" xml:space="preserve">
+    <value>supprimer secteur</value>
+  </data>
+  <data name="Text_Unit_Degrees" xml:space="preserve">
+    <value>°</value>
+  </data>
+  <data name="Text_Blurb_AddSector" xml:space="preserve">
+    <value>pour ajouter un secteur, appuyez et maintenez la carte à l'endroit du secteur</value>
+  </data>
+  <data name="Title_Section_Camera" xml:space="preserve">
+    <value>camera</value>
+  </data>
+  <data name="Text_Blurb_CameraSetup" xml:space="preserve">
+    <value>Track Timer peut démarrer et arrêter votre  Wifi compatible avec GoPro lorsque le chronometre démarre. Votre téléphone portable doit être connecter manuellement avec le</value>
+  </data>
+  <data name="Text_Button_WiFiSettings" xml:space="preserve">
+    <value>options WiFi</value>
+  </data>
+  <data name="Text_Field_StartCameraWithTiming" xml:space="preserve">
+    <value>démarrer la caméra avec chronomètre</value>
+  </data>
+  <data name="Text_Button_AddVehicle" xml:space="preserve">
+    <value>ajouter</value>
+  </data>
+  <data name="Text_Button_EditVehicle" xml:space="preserve">
+    <value>modifier</value>
+  </data>
+  <data name="Title_Page_ChooseDegree" xml:space="preserve">
+    <value>choisissez degré</value>
+  </data>
+  <data name="Text_Button_SaveVehicle" xml:space="preserve">
+    <value>sauvegarder</value>
+  </data>
+  <data name="Text_ContextMenu_DeleteVehicle" xml:space="preserve">
+    <value>supprimer véhicule</value>
+  </data>
+  <data name="Text_Field_CameraPassword" xml:space="preserve">
+    <value>mot-de-passe de la caméra</value>
+  </data>
+  <data name="Title_Page_EditSector" xml:space="preserve">
+    <value>modifier secteur</value>
+  </data>
+  <data name="Text_Field_EndLatitude" xml:space="preserve">
+    <value>fin de latitude</value>
+  </data>
+  <data name="Text_Field_EndLongitude" xml:space="preserve">
+    <value>fin de longitude</value>
+  </data>
+  <data name="Text_Field_Heading" xml:space="preserve">
+    <value>titre</value>
+  </data>
+  <data name="Text_Field_StartFinishLine" xml:space="preserve">
+    <value>ligne d'arrivée</value>
+  </data>
+  <data name="Text_Field_StartLatitude" xml:space="preserve">
+    <value>début de latitude</value>
+  </data>
+  <data name="Text_Field_StartLongitude" xml:space="preserve">
+    <value>début de longitude</value>
+  </data>
+  <data name="Text_Button_Save" xml:space="preserve">
+    <value>sauvegarder</value>
+  </data>
+  <data name="Text_Blurb_StartFinishLine" xml:space="preserve">
+    <value>ligne d'arrivée</value>
+  </data>
+  <data name="Text_Button_Cancel" xml:space="preserve">
+    <value>annuler</value>
+  </data>
+  <data name="Text_Button_Done" xml:space="preserve">
+    <value>fini</value>
+  </data>
+  <data name="Text_Button_RecalculateSectorLine" xml:space="preserve">
+    <value>recalculer ligne</value>
+  </data>
+  <data name="Text_Field_RecalculateSectorLine" xml:space="preserve">
+    <value>recalculer la ligne du secteur</value>
+  </data>
+  <data name="Title_Page_BackgroundUploads" xml:space="preserve">
+    <value>transferts</value>
+  </data>
+  <data name="Text_Blurb_BackgroundTransferComplete" xml:space="preserve">
+    <value>complet</value>
+  </data>
+  <data name="Text_Blurb_BackgroundTransferError" xml:space="preserve">
+    <value>erreur - appuyez sur l'écran</value>
+  </data>
+  <data name="Text_Blurb_BackgroundTransferWaitingForExternalPower" xml:space="preserve">
+    <value>en attente d'une source d'alimentation externe</value>
+  </data>
+  <data name="Text_Blurb_BackgroundTransferWaitingForExternalPowerDueToBatterySaverMode" xml:space="preserve">
+    <value>en attente d'une source d'alimentation externe grâce au mode d'économie de batterie</value>
+  </data>
+  <data name="Text_Blurb_BackgroundTransferWaitingForNonVoiceBlockingNetwork" xml:space="preserve">
+    <value>en attente d'un réseau sans blocage de voix</value>
+  </data>
+  <data name="Text_Blurb_BackgroundTransferWaitingForWifi" xml:space="preserve">
+    <value>en attente du wifi</value>
+  </data>
+  <data name="Text_Blurb_BackgroundTransferPaused" xml:space="preserve">
+    <value>pause</value>
+  </data>
+  <data name="Text_Blurb_BackgroundTransferTransfering" xml:space="preserve">
+    <value>transfert</value>
+  </data>
+  <data name="Text_Blurb_BackgroundTransferUnknown" xml:space="preserve">
+    <value>inconnu</value>
+  </data>
+  <data name="Text_Blurb_BackgroundTransferWaiting" xml:space="preserve">
+    <value>en attente</value>
+  </data>
+  <data name="Text_Button_Uploads" xml:space="preserve">
+    <value>téléchargements...</value>
+  </data>
+  <data name="Text_Field_UploadSessionsOverWiFiOnly" xml:space="preserve">
+    <value>transférer uniquement par WiFi</value>
+  </data>
+  <data name="Text_LoadingStatus_LoadingSettings" xml:space="preserve">
+    <value>chargement des options</value>
+  </data>
+  <data name="Title_Page_SessionHistory" xml:space="preserve">
+    <value>détail de la session</value>
+  </data>
+  <data name="Text_ApplicationBar_Upload" xml:space="preserve">
+    <value>transférer</value>
+  </data>
+  <data name="Text_DataSource_Local" xml:space="preserve">
+    <value>local</value>
+  </data>
+  <data name="Text_DataSource_SkyDrive" xml:space="preserve">
+    <value>OneDrive</value>
+  </data>
+  <data name="Text_ApplicationBar_DeleteTrack" xml:space="preserve">
+    <value>supprimer la piste</value>
+  </data>
+  <data name="Text_TableHeading_LapNumber" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="Text_TableHeading_LapTime" xml:space="preserve">
+    <value>temps au tour</value>
+  </data>
+  <data name="Text_TableHeading_BestLapDifferenceTime" xml:space="preserve">
+    <value>+/-</value>
+  </data>
+  <data name="Text_TableHeading_SplitTime" xml:space="preserve">
+    <value>temps partiel</value>
+  </data>
+  <data name="Text_Unit_GForce" xml:space="preserve">
+    <value>G's</value>
+  </data>
+  <data name="Title_Page_LapDetail" xml:space="preserve">
+    <value>détail du tour</value>
+  </data>
+  <data name="Text_Field_LocationConsent" xml:space="preserve">
+    <value>autoriser LA LOCALISATION</value>
+  </data>
+  <data name="Text_Blurb_DeleteSessionPrompt" xml:space="preserve">
+    <value>Cette session sera définitivement supprimée. Etes-vous sûr de vouloir supprimer cette séance ?</value>
+  </data>
+  <data name="Title_Prompt_DeleteSession" xml:space="preserve">
+    <value>supprimer session</value>
+  </data>
+  <data name="Text_LoadingStatus_UploadingTrack" xml:space="preserve">
+    <value>téléchargement de la piste</value>
+  </data>
+  <data name="Text_Blurb_New" xml:space="preserve">
+    <value>Nouveau</value>
+  </data>
+  <data name="Text_Field_ShowUnofficialTracks" xml:space="preserve">
+    <value>voir pistes non-officielles</value>
+  </data>
+  <data name="Text_Error_UnableToUploadTrackToServer" xml:space="preserve">
+    <value>Impossible de transférer votre piste au serveur en ce moment. Nous vous prions de réessayer plus tard, sinon contactez l'assistance avec l'identifiant de l'erreur</value>
+  </data>
+  <data name="Text_Button_ContactSupport" xml:space="preserve">
+    <value>contactez l'assistance</value>
+  </data>
+  <data name="Text_Button_PrivacyPolicy" xml:space="preserve">
+    <value>politique de confidentialité</value>
+  </data>
+  <data name="Text_Button_ResetTrackCache" xml:space="preserve">
+    <value>vider la mémoire cache des pistes</value>
+  </data>
+  <data name="Text_Button_ReviewApp" xml:space="preserve">
+    <value>donnez votre avis</value>
+  </data>
+  <data name="Text_Button_TermsOfUse" xml:space="preserve">
+    <value>conditions d'utilisation</value>
+  </data>
+  <data name="Text_Field_Version" xml:space="preserve">
+    <value>version</value>
+  </data>
+  <data name="Title_Page_PendingUploads" xml:space="preserve">
+    <value>téléchargements</value>
+  </data>
+  <data name="Title_Section_Support" xml:space="preserve">
+    <value>assistance</value>
+  </data>
+  <data name="Text_Blurb_DeleteAllLocalSessionsPrompt" xml:space="preserve">
+    <value>Toutes les sessions stockées sur votre téléphone portable, y compris les sessions non téléchargées à OneDrive, seront supprimées. Etes-vous sûr que vous voulez supprimer</value>
+  </data>
+  <data name="Text_Blurb_DeleteTrackCachePrompt" xml:space="preserve">
+    <value>Toutes les pistes stockées sur votre téléphone portable, y compris les circuits non-téléchargées au serveur et tous les milieux de la voix de commande, seront supprimées. Etes-</value>
+  </data>
+  <data name="Text_Button_ResetSessions" xml:space="preserve">
+    <value>supprimer les sessions locales</value>
+  </data>
+  <data name="Title_Prompt_DeleteAllLocalSessions" xml:space="preserve">
+    <value>supprimer les sessions locales</value>
+  </data>
+  <data name="Title_Prompt_DeleteTrackCache" xml:space="preserve">
+    <value>supprimer la mémoire cache de la piste</value>
+  </data>
+  <data name="Text_Blurb_NoLeaderboard" xml:space="preserve">
+    <value>Il n'y a pas de classement pour cette piste. Donnez la mesure!</value>
+  </data>
+  <data name="Text_Blurb_NoSessions" xml:space="preserve">
+    <value>Commencer le chronomètrage pour créer votre première session!</value>
+  </data>
+  <data name="Text_LoadingStatus_SavingSessionToPhone" xml:space="preserve">
+    <value>enregistrement de la session</value>
+  </data>
+  <data name="Text_Blurb_DeleteTrackPrompt" xml:space="preserve">
+    <value>Cette piste et toutes les sessions associées seront définitivement supprimés de votre téléphone portable. Pour sauvegarder vos sessions assurez-vous qu'ils sOIENT téléchargés à</value>
+  </data>
+  <data name="Title_Prompt_DeleteTrack" xml:space="preserve">
+    <value>supprimer la piste</value>
+  </data>
+  <data name="Text_Error_BestLapTimeCouldNotBeVerified" xml:space="preserve">
+    <value>Votre meilleur temps au tour pour ce circuit n'a pas pu être vérifié et ne sera pas envoyé au serveur</value>
+  </data>
+  <data name="Text_LoadingStatus_LoadingBestLapTime" xml:space="preserve">
+    <value>chargement du meilleur temps au tour</value>
+  </data>
+  <data name="Text_Error_UnableToUploadBestLapToServer" xml:space="preserve">
+    <value>Impossible de transférer votre meilleur tour au serveur en ce moment. Track Timer réessayera plus tard, sinon vous pouvez contacter l'assistance avec le code idenfiant l'erreur</value>
+  </data>
+  <data name="Text_LoadingStatus_IdentifyingBestLap" xml:space="preserve">
+    <value>identifier le meilleur tour</value>
+  </data>
+  <data name="Text_LoadingStatus_CreatingSession" xml:space="preserve">
+    <value>création de la session</value>
+  </data>
+  <data name="Text_LoadingStatus_LoadingSession" xml:space="preserve">
+    <value>chargement de la session</value>
+  </data>
+  <data name="Text_LoadingStatus_DeletingSession" xml:space="preserve">
+    <value>supression de la session</value>
+  </data>
+  <data name="Text_Blurb_IncompleteSessionSavePrompt" xml:space="preserve">
+    <value>Track Timer a été fermé avant que la dernière session soit transféréE à OneDrive. Vous pouvez transférer cette session manuellement via la page : Détails de la Session.</value>
+  </data>
+  <data name="Text_Field_ShowApexes" xml:space="preserve">
+    <value>sommets d'angle</value>
+  </data>
+  <data name="Text_Field_ShowArialPhotography" xml:space="preserve">
+    <value>imagerie arial</value>
+  </data>
+  <data name="Text_LoadingStatus_RenamingTrackFile" xml:space="preserve">
+    <value>renommer le fichier de la piste</value>
+  </data>
+  <data name="Text_LoadingStatus_RenamingTrackSessionFiles" xml:space="preserve">
+    <value>renommer des fichiers de session de piste</value>
+  </data>
+  <data name="Text_Blurb_CancelTimingPrompt" xml:space="preserve">
+    <value>Etes-vous sûr de vouloir arrêter le chronométrage?</value>
+  </data>
+  <data name="Title_Prompt_CancelTiming" xml:space="preserve">
+    <value>arrêter le chronométrage</value>
+  </data>
+  <data name="Text_Blurb_LocationServicesSwitchedOff" xml:space="preserve">
+    <value>Situation est désactivé dans les paramètres du téléphone. S'il vous plaît l'activer pour permettre mesure du tour de GPS.</value>
+  </data>
+  <data name="Text_Error_UnableToRetrieveLocation" xml:space="preserve">
+    <value>Il y avait une erreur, vous récupérer emplacement actuel. Si cela se produit de nouveau s'il vous plaît contactez le support avec l'ID d'erreur: {0}</value>
+  </data>
+  <data name="Text_Blurb_MustAuthenticatePrompt" xml:space="preserve">
+    <value>Pour accéder à toutes les fonctionnalités de Track Timer vous devez vous connecter avec un compte Microsoft. Voulez-vous vous connecter maintenant?</value>
+  </data>
+  <data name="Title_Page_Tracks" xml:space="preserve">
+    <value>pistes</value>
+  </data>
+  <data name="Text_LoadingStatus_StartingGps" xml:space="preserve">
+    <value>À partir GPS</value>
+  </data>
+  <data name="Text_Unit_ExternalGps" xml:space="preserve">
+    <value>EXT GPS</value>
+  </data>
+  <data name="Text_Unit_InternalGps" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="Title_Prompt_MustAuthenticate" xml:space="preserve">
+    <value>Identifiez-vous</value>
+  </data>
+  <data name="Text_Button_SignIn" xml:space="preserve">
+    <value>Identifiez-vous</value>
+  </data>
+  <data name="Text_Button_SignOut" xml:space="preserve">
+    <value>Déconnexion</value>
+  </data>
+  <data name="Text_Default_Nearby" xml:space="preserve">
+    <value>Proche</value>
+  </data>
+  <data name="Text_Default_New" xml:space="preserve">
+    <value>Nouveau</value>
+  </data>
+  <data name="Text_Default_UnknownCountry" xml:space="preserve">
+    <value>Inconnu</value>
+  </data>
+  <data name="Text_Field_UnitType_Imperial" xml:space="preserve">
+    <value>impériale</value>
+  </data>
+  <data name="Text_Field_UnitType_Metric" xml:space="preserve">
+    <value>métrique</value>
+  </data>
+</root>

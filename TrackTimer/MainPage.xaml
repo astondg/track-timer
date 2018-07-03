@@ -1,0 +1,255 @@
+﻿<phone:PhoneApplicationPage xmlns:UI="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI"  
+    x:Class="TrackTimer.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:Controls="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
+    xmlns:wpe="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:adRotator="clr-namespace:AdRotator;assembly=AdRotator"
+    xmlns:viewModels="clr-namespace:TrackTimer.ViewModels"
+    xmlns:converters="clr-namespace:TrackTimer.Converters"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Landscape"
+    shell:SystemTray.IsVisible="{Binding SystemTrayIsVisible}"
+    shell:SystemTray.Opacity="0"
+    x:Name="mainPage">
+
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator IsIndeterminate="true" IsVisible="{Binding SystemTrayIsVisible}" Text="{Binding LoadingStatusText}" />
+    </shell:SystemTray.ProgressIndicator>
+    
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar Opacity="0.75" Mode="Minimized">
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/edit.png" IsEnabled="False" Text="Edit Track" Click="ApplicationBarIconButton_Edit_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/share.png" IsEnabled="False" Text="Share Track" Click="ApplicationBarIconButton_Share_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/feature.settings.png" IsEnabled="True" Text="Settings" Click="ApplicationBarIconButton_Settings_Click"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem IsEnabled="False" Text="manage friends" Click="ApplicationBarIconButton_ManageFriends_Click" />
+                <shell:ApplicationBarMenuItem IsEnabled="False" Text="delete track" Click="ApplicationBarIconButton_Delete_Click" />
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+    
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!--Panorama control-->
+        <phone:Panorama Grid.Row="0" Title="{Binding Track.Name}" TitleTemplate="{StaticResource PanoramaTitleTemplate}" viewModels:BackgroundImageDownloader.Source="{Binding Track.BackgroundImagePath}">
+            <phone:Panorama.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" Visibility="{Binding Path=., TargetNullValue=Collapsed, Converter={StaticResource ObjectToVisibilityConverter}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" />
+                </DataTemplate>
+            </phone:Panorama.HeaderTemplate>
+            <!--Panorama item Main-->
+            <phone:PanoramaItem>
+                <!--Double wide Panorama with large image placeholders-->
+                <Grid Margin="0,-30,-22,2">
+                    <ScrollViewer>
+                        <StackPanel Margin="0,4,16,0" Orientation="Vertical" VerticalAlignment="Top">
+                            <Border Background="{StaticResource PhoneAccentBrush}" Height="173" Width="358" HorizontalAlignment="Left" Margin="12,0,0,0">
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Track.BestLapTimeDisplay}" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeExtraExtraLarge}" TextAlignment="Center" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="tbkUnofficialLapTimeIcon" Margin="0,-5,0,-33" HorizontalAlignment="Center" Text="&#xf12a;" Style="{StaticResource FontAwesome}" FontSize="{StaticResource PhoneFontSizeLarge}" Visibility="{Binding Track.BestLap.IsUnofficial, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                </StackPanel>
+                            </Border>
+                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,12,0,0">
+                                <Border Background="{StaticResource PhoneAccentBrush}" Height="173" Width="173" Margin="12,0,0,0">
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Track.TotalLaps}" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeExtraExtraLarge}" TextAlignment="Center" />
+                                        <TextBlock Text="{Binding Path=LocalizedResources.Text_Unit_Laps, Source={StaticResource LocalizedStrings}}" TextAlignment="Center" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Background="{StaticResource PhoneAccentBrush}" Height="173" Width="173" Margin="12,0,0,0">
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Track.MaximumSpeed, Converter={StaticResource DoubleToWholeNumberConverter}}" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeExtraExtraLarge}" TextAlignment="Center" />
+                                        <TextBlock Text="{Binding SpeedUnitText}" TextAlignment="Center" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                            <Border Background="{StaticResource PhoneAccentBrush}" Height="84" Width="358" HorizontalAlignment="Left" Margin="12,12,0,0" Tap="Border_Tap">
+                                <TextBlock Text="{Binding Path=LocalizedResources.Text_Button_StartTiming, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" TextAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <wpe:ListPicker Width="358" HorizontalAlignment="Left" ItemsSource="{Binding Settings.Vehicles}" SelectedItem="{Binding CurrentVehicle, Mode=TwoWay}">
+                                <wpe:ListPicker.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Model}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />
+                                    </DataTemplate>
+                                </wpe:ListPicker.ItemTemplate>
+                                <wpe:ListPicker.FullModeItemTemplate>
+                                    <DataTemplate>
+                                        <ListBoxItem>
+                                            <TextBlock Text="{Binding Model}" FontSize="{StaticResource PhoneFontSizeLarge}" Margin="0,5,0,5" />
+                                        </ListBoxItem>
+                                    </DataTemplate>
+                                </wpe:ListPicker.FullModeItemTemplate>
+                            </wpe:ListPicker>
+                            <Button Margin="0" Width="382" Padding="6,0,0,6" Height="76" Content="{Binding Track.Name}" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontFamily="{StaticResource PhoneFontFamilyNormal}"  Click="Button_Click" HorizontalAlignment="Left" />
+                            <Border Height="84" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </phone:PanoramaItem>
+
+            <!--Panorama item Session History-->
+            <phone:PanoramaItem x:Name="pimSessionHistory" Header="{Binding Path=LocalizedResources.Title_Section_SessionHistory, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Path=LocalizedResources.Text_Blurb_NoSessions, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextSubtleStyle}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap">
+                            <TextBlock.Visibility>
+                                <Binding Path="Track.History.Sessions.Count" Converter="{StaticResource IntToVisibilityConverter}">
+                                    <Binding.ConverterParameter>
+                                        <sys:Int32>0</sys:Int32>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </TextBlock.Visibility>
+                        </TextBlock>
+                        <phone:LongListSelector x:Name="LapHistorySelector" Margin="0,0,-22,0" ItemsSource="{Binding Track.History.Sessions}" LayoutMode="List" SelectionChanged="LongListSelector_SelectionChanged">
+                            <phone:LongListSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,-6,0,12">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="{Binding Timestamp, Converter={StaticResource DateTimeOffsetToStringConverter}}" />
+                                        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                                            <TextBlock Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding BestLapTime, Converter={StaticResource TimeSpanToStringConverter}}" />
+                                            <TextBlock Margin="6,0,0,0" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding NumberOfLaps}" />
+                                            <TextBlock Margin="6,0,0,0" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding Path=LocalizedResources.Text_Unit_Laps, Source={StaticResource LocalizedStrings}}" />
+                                        </StackPanel>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,24,0" HorizontalAlignment="Right" TextAlignment="Right" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding Location, Converter={StaticResource SessionLocationToSourceConverter}}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </phone:LongListSelector.ItemTemplate>
+                        </phone:LongListSelector>
+						<TextBlock Margin="0,20,0,0" Text="{Binding Path=LocalizedResources.Text_Button_Uploads, Source={StaticResource LocalizedStrings}}" Tap="TextBlock_Tap" Visibility="{Binding BackgroundTransfers.HasTransferRequests, Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource PhoneTextLargeStyle}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />
+						<Border Height="84" />
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PanoramaItem>
+
+            <!--Panorama item Leaderboard-->
+            <phone:PanoramaItem x:Name="pimLeaderboard" Header="{Binding Path=LocalizedResources.Title_Section_Leaderboard, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Path=LocalizedResources.Text_Blurb_NoLeaderboard, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextSubtleStyle}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap">
+                            <TextBlock.Visibility>
+                                <Binding Path="Track.Leaderboard.Count" Converter="{StaticResource IntToVisibilityConverter}">
+                                    <Binding.ConverterParameter>
+                                        <sys:Int32>0</sys:Int32>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </TextBlock.Visibility>
+                        </TextBlock>
+                        <phone:LongListSelector x:Name="LeaderboardSelector" Margin="0,0,-22,0" ItemsSource="{Binding Track.Leaderboard}" LayoutMode="List" SelectionChanged="LongListSelector_SelectionChanged_1">
+                            <phone:LongListSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,-6,0,12">
+                                        <!--<wpe:ContextMenuService.ContextMenu>
+                                            <wpe:ContextMenu Visibility="{Binding UserDisplayName, Converter={StaticResource ObjectToVisibilityConverter}, ConverterParameter=NEGATE}">
+                                                <wpe:MenuItem Header="{Binding LocalizedResources.Text_ContextMenu_RequestFriend, Source={StaticResource LocalizedStrings}}" Command="{Binding DataContext.AddFriend, ElementName=mainPage}" CommandParameter="{Binding}" />
+                                            </wpe:ContextMenu>
+                                        </wpe:ContextMenuService.ContextMenu>-->
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding LapTime, Converter={StaticResource TimeSpanToStringConverter}}" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,6,36,0" HorizontalAlignment="Right" TextAlignment="Right" Style="{StaticResource FontAwesome}" FontSize="{StaticResource PhoneFontSizeLarge}" Text="&#xf12a;" Visibility="{Binding IsUnofficial, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding UserDisplayName}" Visibility="{Binding UserDisplayName, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Vehicle.Model}" Style="{StaticResource PhoneTextSubtleStyle}" />
+                                            <TextBlock Margin="6,0,0,0" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding Vehicle.Class}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </phone:LongListSelector.ItemTemplate>
+                        </phone:LongListSelector>
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PanoramaItem>
+
+            <!--Panorama item Map-->
+            <phone:PanoramaItem>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Controls:Map Grid.Row="0" x:Name="mapCircuit" ZoomLevel="16" Loaded="Map_Loaded" CartographicMode="Road" />
+                    <wpe:ToggleSwitch Grid.Row="1" Content="{Binding Path=LocalizedResources.Text_Field_ShowArialPhotography, Source={StaticResource LocalizedStrings}}" IsChecked="false" Unchecked="ToggleSwitch_Unchecked" Checked="ToggleSwitch_Checked" />
+                </Grid>
+            </phone:PanoramaItem>
+            
+            <!--Panorama item Description-->
+            <phone:PanoramaItem Header="{Binding Path=LocalizedResources.Title_Section_TrackDescription, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding Track.Description}" Style="{StaticResource PhoneTextNormalStyle}" FontSize="{StaticResource PhoneFontSizeMediumLarge}"></TextBlock>
+                        <StackPanel Margin="0,24,0,48" Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=LocalizedResources.Title_SubHeading_TrackLength, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextLargeStyle}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />
+                            <TextBlock Margin="12,0,0,0" Text="{Binding Track.Length, Converter={StaticResource ValueDefaultToNotApplicableConverter}}" Style="{StaticResource PhoneTextLargeStyle}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />
+                            <TextBlock Margin="6,0,0,0" Text="{Binding LengthUnitText}" Style="{StaticResource PhoneTextLargeStyle}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PanoramaItem>
+
+            <!--Panorama item Activity-->
+            <phone:PanoramaItem Header="{Binding Path=LocalizedResources.Title_Section_Activity, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <StackPanel>
+                            <StackPanel.Visibility>
+                                <Binding Path="ActivityFeed.Count" Converter="{StaticResource IntToVisibilityConverter}">
+                                    <Binding.ConverterParameter>
+                                        <sys:Int32>0</sys:Int32>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </StackPanel.Visibility>
+                            <TextBlock Text="{Binding Path=LocalizedResources.Text_Blurb_AddFriendsToSeeActivity, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextSubtleStyle}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap" FontFamily="Portable User Interface" />
+                            <HyperlinkButton Margin="0,18,0,18" HorizontalContentAlignment="Left" Content="{Binding Path=LocalizedResources.Text_Blurb_TapHereToAddAFriend, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneHyperlinkSubtleStyle}" NavigateUri="/ManageFriendsPage.xaml" FontFamily="Portable User Interface" />
+                        </StackPanel>                    
+                        <phone:LongListSelector x:Name="activitySelector" Margin="0,0,-22,0" ItemsSource="{Binding ActivityFeed}" LayoutMode="List">
+                            <phone:LongListSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,18">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" HorizontalAlignment="Stretch" TextAlignment="Left" Style="{StaticResource PhoneTextSubtleStyle}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" Text="{Binding CreatedAt, Converter={StaticResource DateTimeOffsetToStringConverter}}" />
+                                        <TextBlock Grid.Row="1" Style="{StaticResource PhoneTextNormalStyle}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" Text="{Binding FormattedText}" TextWrapping="Wrap" />
+                                        <Border Grid.Row="2" Margin="48,18,60,0" HorizontalAlignment="Stretch" BorderBrush="{StaticResource PhoneSubtleBrush}" BorderThickness="2" Height="2" Opacity="0.3" />
+                                    </Grid>
+                                </DataTemplate>
+                            </phone:LongListSelector.ItemTemplate>
+                        </phone:LongListSelector>
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PanoramaItem>
+        </phone:Panorama>
+        <Image Grid.Row="1" Height="80" Width="480" Margin="0,0,0,20" Visibility="{Binding Settings.IsTrial, Converter={StaticResource BoolToVisibilityConverter}}" Source="/Assets/TrackTimer_BuyBanner_480x80.png" Tap="Image_Tap" />
+        <adRotator:AdRotatorControl x:Name="AdRotatorControl" Grid.Row="1" AdHeight="80" AdWidth="480" Margin="0,0,0,20" Visibility="{Binding Settings.IsTrial, Converter={StaticResource BoolToVisibilityConverter}}" LocalSettingsLocation="defaultAdSettings.xml" RemoteSettingsLocation="http://tracktimer.azurewebsites.net/Content/config/defaultAdSettings.xml" AutoStartAds="True" Background="#00000000" />
+    </Grid>
+</phone:PhoneApplicationPage>
